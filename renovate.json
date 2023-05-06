@@ -1,0 +1,17 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+      "config:base"
+    ],
+    "separateMinorPatch": true,
+    "packageRules": [
+      {
+        "matchDatasources": ["docker"],
+        "matchUpdateTypes": ["patch"],
+        "automerge": true,
+        "automergeType": "pr",
+        "platformAutomerge": true
+      }
+    ]
+  }
+  
