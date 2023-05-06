@@ -1,0 +1,12 @@
+apiVersion: v1
+entries:
+  olm:
+  - apiVersion: v2
+    created: "2023-05-06T07:51:13.991079645Z"
+    description: A Helm chart for Kubernetes
+    digest: ca43ffad9d1ccf8e027a0d38ff2d5a497828e1e195ff844020b87660ceb0454b
+    name: olm
+    urls:
+    - https://github.com/CloudTooling/k8s-olm/releases/download/olm-v0.24.0/olm-v0.24.0.tgz
+    version: v0.24.0
+generated: "2023-05-06T07:51:13.991088245Z"
