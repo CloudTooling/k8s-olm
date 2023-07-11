@@ -1,9 +1,19 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-    "extends": [
-      "config:base"
-    ],
+    "labels": ["dependencies"],
+    "extends": ["config:base", ":dependencyDashboard"],
+    "automergeSchedule": ["after 5am and before 5pm every weekday"],
     "separateMinorPatch": true,
+    "regexManagers": [
+      {
+        "description": "Update _VERSION variables in shell scripts",
+        "fileMatch": ["\\.yaml$"],
+        "matchStrings": [
+          "# renovate: datasource=(?<datasource>[a-z-]+?) depName=(?<depName>.+?)(?: (?:packageName|lookupName)=(?<packageName>.+?))?(?: versioning=(?<versioning>[a-z-]+?))?\\s(?:ENV|ARG) .+?_VERSION=(?<currentValue>.+?)\\s"
+        ],
+        "versioningTemplate": "{{#if versioning}}{{versioning}}{{else}}semver{{/if}}"
+      }
+    ],
     "packageRules": [
       {
         "matchDatasources": ["docker"],
@@ -14,4 +24,3 @@
       }
     ]
   }
-  
