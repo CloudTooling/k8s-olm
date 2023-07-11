@@ -9,7 +9,7 @@
         "description": "Update _VERSION variables in shell scripts",
         "fileMatch": ["\\.yaml$"],
         "matchStrings": [
-          "# renovate: datasource=(?<datasource>[a-z-]+?) depName=(?<depName>.+?)(?: (?:packageName|lookupName)=(?<packageName>.+?))?(?: versioning=(?<versioning>[a-z-]+?))?\\s(?:ENV|ARG) .+?_VERSION=(?<currentValue>.+?)\\s"
+          "# renovate: datasource=(?<datasource>[a-z-]+?) depName=(?<depName>.+?)(?: (?:packageName|lookupName)=(?<packageName>.+?))?(?: versioning=(?<versioning>[a-z-]+?))?\\s.+?_VERSION=(?<currentValue>.+?)\\s"
         ],
         "versioningTemplate": "{{#if versioning}}{{versioning}}{{else}}semver{{/if}}"
       }
