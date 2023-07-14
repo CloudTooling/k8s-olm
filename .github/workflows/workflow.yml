@@ -23,6 +23,9 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      # Check for changes from OLM
+      # Runs commands using the runners shell
       - name: Check for updates in chart
         run: .bin/update-chart.sh
+
+      # push the change if exists
+      - uses: int128/update-generated-files-action@v2
