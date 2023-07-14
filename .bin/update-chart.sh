@@ -3,7 +3,7 @@
 set -o pipefail
 
 # renovate: datasource=github-tags depName=operator-framework/operator-lifecycle-manager versioning=semver
-export OLM_VERSION="v0.24.0"
+OLM_VERSION="v0.24.0"
 
 mkdir -p tmp && cd tmp
 git clone https://github.com/operator-framework/operator-lifecycle-manager.git
