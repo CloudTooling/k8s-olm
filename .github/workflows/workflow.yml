@@ -34,3 +34,5 @@ jobs:
 
       # push the change if exists
       - uses: int128/update-generated-files-action@v2
+        with:
+          commit-message: "chore: Update OLM chart"
