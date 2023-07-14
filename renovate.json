@@ -6,8 +6,11 @@
     "separateMinorPatch": true,
     "regexManagers": [
       {
-        "description": "Update _VERSION variables in shell scripts",
-        "fileMatch": ["\\.yaml$"],
+        "description": "Update _VERSION variables in shell scripts and YAML files",
+        "fileMatch": [
+          "\\.sh$",
+          "\\.yaml$"
+        ],
         "matchStrings": [
           "# renovate: datasource=(?<datasource>[a-z-]+?) depName=(?<depName>.+?)(?: (?:packageName|lookupName)=(?<packageName>.+?))?(?: versioning=(?<versioning>[a-z-]+?))?\\s.+?_VERSION=(?<currentValue>.+?)\\s"
         ],
