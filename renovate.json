@@ -1,40 +1,38 @@
 {
-    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-    "labels": ["dependencies"],
-    "extends": ["config:base", ":dependencyDashboard"],
-    "automergeSchedule": ["after 5am and before 5pm every weekday"],
-    "separateMinorPatch": true,
-    "regexManagers": [
-      {
-        "description": "Update _VERSION variables in YAML files",
-        "fileMatch": [
-          "\\.yaml$"
-        ],
-        "matchStrings": [
-          "# renovate: datasource=(?<datasource>[a-z-]+?) depName=(?<depName>[^\\s]+?)(?: (lookupName|packageName)=(?<packageName>[^\\s]+?))?(?: versioning=(?<versioning>[^\\s]+?))?\\s.+?_version: (?<currentValue>.+?)\\s"
-        ],
-        "extractVersionTemplate": "{{#if extractVersion}}{{{extractVersion}}}{{else}}^v?(?<version>.+)${{/if}}",
-        "versioningTemplate": "{{#if versioning}}{{versioning}}{{else}}semver{{/if}}"
-      },
-      {
-        "description": "Update _VERSION variables in shell scripts",
-        "fileMatch": [
-          "\\.sh$",
-        ],
-        "matchStrings": [
-          "# renovate: datasource=(?<datasource>[a-z-]+?) depName=(?<depName>[^\\s]+?)(?: (lookupName|packageName)=(?<packageName>[^\\s]+?))?(?: versioning=(?<versioning>[^\\s]+?))?\\s*.*?_VERSION=\"?(?<currentValue>.+?)\"?\\s"
-        ],
-        "extractVersionTemplate": "{{#if extractVersion}}{{{extractVersion}}}{{else}}^v?(?<version>.+)${{/if}}",
-        "versioningTemplate": "{{#if versioning}}{{versioning}}{{else}}semver{{/if}}"
-      }
-    ],
-    "packageRules": [
-      {
-        "matchDatasources": ["docker"],
-        "matchUpdateTypes": ["patch"],
-        "automerge": true,
-        "automergeType": "pr",
-        "platformAutomerge": true
-      }
-    ]
-  }
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "labels": ["dependencies"],
+  "extends": ["config:recommended", ":dependencyDashboard"],
+  "automergeSchedule": ["after 5am and before 5pm every weekday"],
+  "separateMinorPatch": true,
+  "regexManagers": [
+    {
+      "customType": "regex",
+      "description": "Update _VERSION variables in YAML files",
+      "fileMatch": ["\\.yaml$"],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>[a-z-]+?) depName=(?<depName>[^\\s]+?)(?: (lookupName|packageName)=(?<packageName>[^\\s]+?))?(?: versioning=(?<versioning>[^\\s]+?))?\\s.+?_version: (?<currentValue>.+?)\\s"
+      ],
+      "extractVersionTemplate": "{{#if extractVersion}}{{{extractVersion}}}{{else}}^v?(?<version>.+)${{/if}}",
+      "versioningTemplate": "{{#if versioning}}{{versioning}}{{else}}semver{{/if}}"
+    },
+    {
+      "customType": "regex",
+      "description": "Update _VERSION variables in shell scripts",
+      "fileMatch": ["\\.sh$"],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>[a-z-]+?) depName=(?<depName>[^\\s]+?)(?: (lookupName|packageName)=(?<packageName>[^\\s]+?))?(?: versioning=(?<versioning>[^\\s]+?))?\\s*.*?_VERSION=\"?(?<currentValue>.+?)\"?\\s"
+      ],
+      "extractVersionTemplate": "{{#if extractVersion}}{{{extractVersion}}}{{else}}^v?(?<version>.+)${{/if}}",
+      "versioningTemplate": "{{#if versioning}}{{versioning}}{{else}}semver{{/if}}"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["patch"],
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true
+    }
+  ]
+}
