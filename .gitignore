@@ -15,3 +15,8 @@ Desktop.ini
 
 # temp dir
 tmp/*
+
+# Helm Chart
+
+*.tgz
+SNIPPETS.md
