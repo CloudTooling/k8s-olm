@@ -1,0 +1,7 @@
+# Artifact Hub repository metadata file
+# Used to become verified publisher and more - https://artifacthub.io/docs/topics/repositories/#verified-publisher
+repositoryID: eee9a92e-bd46-4b65-83a1-89d398519ef1
+owners:
+  - name: hypery2k
+    email: martin@m13t.de
+    
