@@ -2,7 +2,7 @@
 
 ![Version: 0.26.0](https://img.shields.io/badge/Version-0.26.0-informational?style=flat-square)
 
-A Helm chart for Kubernetes
+Kubernetes Chart for Operator Lifecycle Manager
 
 ## Values
 
