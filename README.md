@@ -2,7 +2,7 @@
 
 Kubernetes Chart for [Operator Lifecycle Manager](https://olm.operatorframework.io/)
 
-[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/olm)](https://artifacthub.io/packages/search?repo=olm)
+[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/olm)](https://artifacthub.io/packages/helm/olm/olm)
 
 Credits to [kubitus for the idea](https://gitlab.com/kubitus-project/external-helm-charts/operator-lifecycle-manager).
 
