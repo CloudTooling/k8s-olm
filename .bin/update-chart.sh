@@ -17,3 +17,4 @@ cd ..
 sed -i.bak "s/operator-framework\/olm:master$/operator-framework\/olm:v${OLM_VERSION}/" chart/values.yaml
 rm chart/values.yaml.bak
 rm -rf tmp
+helm-docs chart/
