@@ -1,7 +1,7 @@
 apiVersion: v2
 description: Kubernetes Chart for Operator Lifecycle Manager
 name: olm
-version: 0.26.0
+version: 0.27.0
 annotations:
   artifacthub.io/links: |
       - name: Helm Chart
