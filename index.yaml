@@ -8,6 +8,20 @@ entries:
         - name: Application
           url: https://olm.operatorframework.io/
     apiVersion: v2
+    created: "2024-02-22T03:37:02.463771416Z"
+    description: Kubernetes Chart for Operator Lifecycle Manager
+    digest: 268cb01317789b8fbe219c2dd57c00c0d1756b6ecafaf4edfd7cc2e62d0d533d
+    name: olm
+    urls:
+    - https://github.com/CloudTooling/k8s-olm/releases/download/olm-0.27.0/olm-0.27.0.tgz
+    version: 0.27.0
+  - annotations:
+      artifacthub.io/links: |-
+        - name: Helm Chart
+          url: https://github.com/CloudTooling/k8s-olm
+        - name: Application
+          url: https://olm.operatorframework.io/
+    apiVersion: v2
     created: "2023-11-01T04:13:04.625604938Z"
     description: Kubernetes Chart for Operator Lifecycle Manager
     digest: 910261c0da50fe3847181105bcca42ed89b9f494d108cfc32ccf2a4097ca07c8
@@ -31,4 +45,4 @@ entries:
     urls:
     - https://github.com/CloudTooling/k8s-olm/releases/download/olm-v0.24.0/olm-v0.24.0.tgz
     version: v0.24.0
-generated: "2023-11-01T04:13:04.62565874Z"
+generated: "2024-02-22T03:37:02.463793377Z"
