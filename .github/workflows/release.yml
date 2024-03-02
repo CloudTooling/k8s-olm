@@ -29,6 +29,19 @@ jobs:
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.6.0
         with:
-            charts_dir: .
+          charts_dir: .
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Login to GitHub Container Registry
+        run: |
+          echo ${{ secrets.CT_OCI_GITHUB_TOKEN }} | helm registry login ghcr.io -u $ --password-stdin
+
+      - name: Push Charts to GHCR
+        run: |
+          for pkg in .cr-release-packages/*; do
+            if [ -z "${pkg:-}" ]; then
+              break
+            fi
+            helm push "${pkg}" oci://ghcr.io/cloudtooling/helm-charts
+          done
