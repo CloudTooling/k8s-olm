@@ -39,3 +39,67 @@ jobs:
       - uses: int128/update-generated-files-action@v2
         with:
           commit-message: "chore: Update OLM chart"
+
+  end2end:
+    name: 'Build and Test Helm Chart'
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: v3.11.2
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+          check-latest: true
+
+      - name: Helm Chart Testing
+        uses: helm/chart-testing-action@v2.6.1
+
+      - name: Run chart-testing (list-changed)
+        id: list-changed
+        run: |
+          changed=$(ct list-changed --target-branch ${{ github.event.repository.default_branch }})
+          if [[ -n "$changed" ]]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run chart-testing (lint)
+        if: steps.list-changed.outputs.changed == 'true'
+        run: ct lint --target-branch ${{ github.event.repository.default_branch }}
+
+      - name: Create kind cluster
+        if: steps.list-changed.outputs.changed == 'true'
+        uses: helm/kind-action@v1.10.0
+
+      - name: Run chart-testing (install - no further args)
+        if: steps.list-changed.outputs.changed == 'true'
+        run: ct install --target-branch ${{ github.event.repository.default_branch }}
+
+      - name: Run chart-testing (install - with args)
+        if: steps.list-changed.outputs.changed == 'true'
+        run: ct install --target-branch ${{ github.event.repository.default_branch }} --helm-extra-set-args "-f chart/ci.values.yaml"
+
+  build-results:
+    name: Build results
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    needs:
+      - build
+      - end2end
+    steps:
+      - run: exit 1
+        # see https://stackoverflow.com/a/67532120/4907315
+        if: >-
+          ${{
+                contains(needs.*.result, 'failure')
+            || contains(needs.*.result, 'cancelled')
+                || contains(needs.*.result, 'skipped')
+                }}
