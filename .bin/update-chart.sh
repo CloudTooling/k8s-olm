@@ -19,5 +19,7 @@ mv ci.values.yaml.bak ../chart/ci.values.yaml.yaml
 cd ..
 sed -i.bak "s/operator-framework\/olm:master$/operator-framework\/olm:v${OLM_VERSION}/" chart/values.yaml
 rm chart/values.yaml.bak
+# Correcting namespace ref
+git apply .etc/patches/correct-release-ns.patch
 rm -rf tmp
 helm-docs chart/
