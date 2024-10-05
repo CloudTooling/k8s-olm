@@ -1,6 +1,6 @@
 # olm
 
-![Version: 0.28.0](https://img.shields.io/badge/Version-0.28.0-informational?style=flat-square)
+![Version: 0.28.1](https://img.shields.io/badge/Version-0.28.1-informational?style=flat-square)
 
 Kubernetes Chart for Operator Lifecycle Manager
 
@@ -25,7 +25,6 @@ Kubernetes Chart for Operator Lifecycle Manager
 | minKubeVersion | string | `"1.11.0"` |  |
 | monitoring.enabled | bool | `false` |  |
 | monitoring.namespace | string | `"monitoring"` |  |
-| namespace | string | `"operator-lifecycle-manager"` |  |
 | namespace_psa.auditLevel | string | `"restricted"` |  |
 | namespace_psa.auditVersion | string | `"latest"` |  |
 | namespace_psa.enforceLevel | string | `"baseline"` |  |
