@@ -1,0 +1,6 @@
+chart-dirs:
+  - .
+debug: true
+target-branch: main
+check-version-increment: false
+validate-maintainers: false
