@@ -49,9 +49,9 @@ jobs:
                 uses: azure/setup-helm@v4
             -   name: Helm Package
                 run: |
-                    sed -i 's/version: '"$chartVersion"'/version: '"${{ github.event.inputs.releaseversion }}"'/g' $HELM_CHART_DIR/Chart.yaml
+                    sed -i 's/version: '"$chartVersion"'/version: '"${{ github.event.inputs.releaseversion }}"'/g' chart/Chart.yaml
                     helm-docs
-                    helm package $HELM_CHART_DIR
+                    helm package chart
                     git add .
 
             -   name: Run chart-releaser
