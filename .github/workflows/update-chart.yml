@@ -30,7 +30,15 @@ jobs:
       - name: Check for updates in chart
         run: .bin/update-chart.sh
 
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            src:
+              - 'chart/**'
+
       # push the change if exists
       - uses: int128/update-generated-files-action@v2
         with:
           commit-message: "chore: Update OLM chart"
+        if: steps.changes.outputs.src == 'true'
