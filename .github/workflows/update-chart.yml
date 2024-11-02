@@ -30,7 +30,7 @@ jobs:
       - name: Check for updates in chart
         run: .bin/update-chart.sh
 
-      - uses: dorny/paths-filter@v2
+      - uses: dorny/paths-filter@v3
         id: changes
         with:
           filters: |
