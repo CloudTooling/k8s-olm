@@ -52,20 +52,14 @@ jobs:
 
             -   name: Helm Package
                 run: |
+                    helm repo add bitnami https://charts.bitnami.com/bitnami
+                    helm dependency update chart/
                     chartVersion=$(cat chart/Chart.yaml | grep "version: " | sed -E -n "s/^version: \s*(.*)$/\1/p")
                     sed -i 's/version: '"$chartVersion"'/version: '"${{ github.event.inputs.releaseversion }}"'/g' chart/Chart.yaml
                     helm-docs
                     helm package chart
                     git add .
-
-            -   name: Run chart-releaser
-                uses: helm/chart-releaser-action@v1.6.0
-                with:
-                    charts_dir: .
-                    config: .cr.yaml
-                    skip_existing: true
-                env:
-                    CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+                    git tag v${{ github.event.inputs.releaseversion }}
 
             -   name: Login to GitHub Container Registry
                 run: |
@@ -73,14 +67,9 @@ jobs:
 
             -   name: Push Charts to GHCR
                 run: |
-                    for pkg in .cr-release-packages/*; do
-                      if [ -z "${pkg:-}" ]; then
-                        break
-                      fi
-                      helm push "${pkg}" oci://ghcr.io/cloudtooling/helm-charts
-                    done
+                    helm push olm-${{ github.event.inputs.releaseversion }}.tgz oci://ghcr.io/cloudtooling/helm-charts
 
-            -   name: Conventional Changelog Action
+            -   name: Adding release notes
                 uses: TriPSs/conventional-changelog-action@v5
                 with:
                     input-file: CHANGELOG.md
@@ -91,3 +80,23 @@ jobs:
                     skip-tag: true
                     skip-on-empty: true
                     tag-prefix: "v"
+
+            -   name: Create Release on GH
+                id: tag-and-release
+                uses: avakar/tag-and-release@v1
+                with:
+                    draft: true
+                    release_name: ${{ github.event.inputs.releaseversion }}
+                    tag_name: v${{ github.event.inputs.releaseversion }}
+                env:
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+            -   name: Add chart to github release
+                uses: actions/upload-release-asset@v1
+                with:
+                    upload_url: ${{ steps.tag-and-release.outputs.upload_url }}
+                    asset_path: olm-${{ github.event.inputs.releaseversion }}.tgz
+                    asset_name: olm-chart.tgz
+                    asset_content_type: application/zip
+                env:
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
