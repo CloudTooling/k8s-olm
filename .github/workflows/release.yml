@@ -52,6 +52,7 @@ jobs:
 
             -   name: Helm Package
                 run: |
+                    chartVersion=$(cat chart/Chart.yaml | grep "version: " | sed -E -n "s/^version: \s*(.*)$/\1/p")
                     sed -i 's/version: '"$chartVersion"'/version: '"${{ github.event.inputs.releaseversion }}"'/g' chart/Chart.yaml
                     helm-docs
                     helm package chart
