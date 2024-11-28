@@ -70,7 +70,7 @@ jobs:
                     helm push olm-${{ github.event.inputs.releaseversion }}.tgz oci://ghcr.io/cloudtooling/helm-charts
 
             -   name: Adding release notes
-                uses: TriPSs/conventional-changelog-action@v5
+                uses: TriPSs/conventional-changelog-action@v6
                 with:
                     input-file: CHANGELOG.md
                     github-token: ${{ steps.app-token.outputs.token }}
