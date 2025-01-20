@@ -1,5 +1,5 @@
 rbacApiVersion: rbac.authorization.k8s.io
-namespace: operator-lifecycle-manager
+
 # see https://kubernetes.io/docs/concepts/security/pod-security-admission/ for more details
 namespace_psa: 
   enforceLevel: baseline

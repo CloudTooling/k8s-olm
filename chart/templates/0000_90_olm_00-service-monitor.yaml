@@ -3,7 +3,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: olm-operator
-  namespace: {{ .Values.namespace }}
+  namespace: {{ .Release.Namespace }}
   labels:
     app: olm-operator
 spec:
@@ -19,11 +19,11 @@ spec:
     scheme: https
     tlsConfig:
       caFile: /etc/prometheus/configmaps/serving-certs-ca-bundle/service-ca.crt
-      serverName: olm-operator-metrics.{{ .Values.namespace }}.svc
+      serverName: olm-operator-metrics.{{ .Release.Namespace }}.svc
   jobLabel: component
   namespaceSelector:
     matchNames:
-    - {{ .Values.namespace }}
+    - {{ .Release.Namespace }}
   selector:
     matchLabels:
       app: olm-operator
@@ -32,7 +32,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: catalog-operator
-  namespace: {{ .Values.namespace }}
+  namespace: {{ .Release.Namespace }}
   labels:
     app: catalog-operator
 spec:
@@ -48,11 +48,11 @@ spec:
     scheme: https
     tlsConfig:
       caFile: /etc/prometheus/configmaps/serving-certs-ca-bundle/service-ca.crt
-      serverName: catalog-operator-metrics.{{ .Values.namespace }}.svc
+      serverName: catalog-operator-metrics.{{ .Release.Namespace }}.svc
   jobLabel: component
   namespaceSelector:
     matchNames:
-    - {{ .Values.namespace }}
+    - {{ .Release.Namespace }}
   selector:
     matchLabels:
       app: catalog-operator
@@ -61,7 +61,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: operator-lifecycle-manager-metrics
-  namespace: {{ .Values.namespace }}
+  namespace: {{ .Release.Namespace }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -75,7 +75,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: operator-lifecycle-manager-metrics
-  namespace: {{ .Values.namespace }}
+  namespace: {{ .Release.Namespace }}
 rules:
 - apiGroups:
   - ""

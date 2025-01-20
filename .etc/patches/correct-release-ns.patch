@@ -1,0 +1,205 @@
+diff --git a/chart/templates/0000_50_olm_00-namespace.yaml b/chart/templates/0000_50_olm_00-namespace.yaml
+index 69fca9f..de322b5 100644
+--- a/chart/templates/0000_50_olm_00-namespace.yaml
++++ b/chart/templates/0000_50_olm_00-namespace.yaml
+@@ -1,7 +1,7 @@
+ apiVersion: v1
+ kind: Namespace
+ metadata:
+-  name: {{ .Values.namespace }}
++  name: {{ .Release.Namespace }}
+   labels: 
+     {{- if .Values.namespace_psa }}
+     pod-security.kubernetes.io/enforce: {{ .Values.namespace_psa.enforceLevel }}
+diff --git a/chart/templates/0000_50_olm_01-olm-operator.serviceaccount.yaml b/chart/templates/0000_50_olm_01-olm-operator.serviceaccount.yaml
+index fceffd0..013b914 100644
+--- a/chart/templates/0000_50_olm_01-olm-operator.serviceaccount.yaml
++++ b/chart/templates/0000_50_olm_01-olm-operator.serviceaccount.yaml
+@@ -13,12 +13,12 @@ kind: ServiceAccount
+ apiVersion: v1
+ metadata:
+   name: olm-operator-serviceaccount
+-  namespace: {{ .Values.namespace }}
++  namespace: {{ .Release.Namespace }}
+ ---
+ apiVersion: {{ .Values.rbacApiVersion }}/v1
+ kind: ClusterRoleBinding
+ metadata:
+-  name: olm-operator-binding-{{ .Values.namespace }}
++  name: olm-operator-binding-{{ .Release.Namespace }}
+ roleRef:
+   apiGroup: {{ .Values.rbacApiVersion }}
+   kind: ClusterRole
+@@ -26,4 +26,4 @@ roleRef:
+ subjects:
+ - kind: ServiceAccount
+   name: olm-operator-serviceaccount
+-  namespace: {{ .Values.namespace }}
++  namespace: {{ .Release.Namespace }}
+diff --git a/chart/templates/0000_50_olm_02-services.yaml b/chart/templates/0000_50_olm_02-services.yaml
+index 51fb8df..8edf73c 100644
+--- a/chart/templates/0000_50_olm_02-services.yaml
++++ b/chart/templates/0000_50_olm_02-services.yaml
+@@ -3,7 +3,7 @@ apiVersion: v1
+ kind: Service
+ metadata:
+   name: olm-operator-metrics
+-  namespace: {{ .Values.namespace }}
++  namespace: {{ .Release.Namespace }}
+   annotations:
+     service.alpha.openshift.io/serving-cert-secret-name: olm-operator-serving-cert
+   labels:
+@@ -22,7 +22,7 @@ apiVersion: v1
+ kind: Service
+ metadata:
+   name: catalog-operator-metrics
+-  namespace: {{ .Values.namespace }}
++  namespace: {{ .Release.Namespace }}
+   annotations:
+     service.alpha.openshift.io/serving-cert-secret-name: catalog-operator-serving-cert
+   labels:
+diff --git a/chart/templates/0000_50_olm_07-olm-operator.deployment.yaml b/chart/templates/0000_50_olm_07-olm-operator.deployment.yaml
+index f2c7bd8..13ae913 100644
+--- a/chart/templates/0000_50_olm_07-olm-operator.deployment.yaml
++++ b/chart/templates/0000_50_olm_07-olm-operator.deployment.yaml
+@@ -2,7 +2,7 @@ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: olm-operator
+-  namespace: {{ .Values.namespace }}
++  namespace: {{ .Release.Namespace }}
+   labels:
+     app: olm-operator
+ spec:
+diff --git a/chart/templates/0000_50_olm_08-catalog-operator.deployment.yaml b/chart/templates/0000_50_olm_08-catalog-operator.deployment.yaml
+index eea8046..dc8629c 100644
+--- a/chart/templates/0000_50_olm_08-catalog-operator.deployment.yaml
++++ b/chart/templates/0000_50_olm_08-catalog-operator.deployment.yaml
+@@ -2,7 +2,7 @@ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: catalog-operator
+-  namespace: {{ .Values.namespace }}
++  namespace: {{ .Release.Namespace }}
+   labels:
+     app: catalog-operator
+ spec:
+diff --git a/chart/templates/0000_50_olm_13-operatorgroup-default.yaml b/chart/templates/0000_50_olm_13-operatorgroup-default.yaml
+index 079d49f..59a1ba0 100644
+--- a/chart/templates/0000_50_olm_13-operatorgroup-default.yaml
++++ b/chart/templates/0000_50_olm_13-operatorgroup-default.yaml
+@@ -8,7 +8,7 @@ apiVersion: operators.coreos.com/v1
+ kind: OperatorGroup
+ metadata:
+   name: olm-operators
+-  namespace: {{ .Values.namespace }}
++  namespace: {{ .Release.Namespace }}
+ spec:
+   targetNamespaces:
+-    - {{ .Values.namespace }}
++    - {{ .Release.Namespace }}
+diff --git a/chart/templates/0000_90_olm_00-service-monitor.yaml b/chart/templates/0000_90_olm_00-service-monitor.yaml
+index 6585bd6..33aa6e8 100644
+--- a/chart/templates/0000_90_olm_00-service-monitor.yaml
++++ b/chart/templates/0000_90_olm_00-service-monitor.yaml
+@@ -3,7 +3,7 @@ apiVersion: monitoring.coreos.com/v1
+ kind: ServiceMonitor
+ metadata:
+   name: olm-operator
+-  namespace: {{ .Values.namespace }}
++  namespace: {{ .Release.Namespace }}
+   labels:
+     app: olm-operator
+ spec:
+@@ -19,11 +19,11 @@ spec:
+     scheme: https
+     tlsConfig:
+       caFile: /etc/prometheus/configmaps/serving-certs-ca-bundle/service-ca.crt
+-      serverName: olm-operator-metrics.{{ .Values.namespace }}.svc
++      serverName: olm-operator-metrics.{{ .Release.Namespace }}.svc
+   jobLabel: component
+   namespaceSelector:
+     matchNames:
+-    - {{ .Values.namespace }}
++    - {{ .Release.Namespace }}
+   selector:
+     matchLabels:
+       app: olm-operator
+@@ -32,7 +32,7 @@ apiVersion: monitoring.coreos.com/v1
+ kind: ServiceMonitor
+ metadata:
+   name: catalog-operator
+-  namespace: {{ .Values.namespace }}
++  namespace: {{ .Release.Namespace }}
+   labels:
+     app: catalog-operator
+ spec:
+@@ -48,11 +48,11 @@ spec:
+     scheme: https
+     tlsConfig:
+       caFile: /etc/prometheus/configmaps/serving-certs-ca-bundle/service-ca.crt
+-      serverName: catalog-operator-metrics.{{ .Values.namespace }}.svc
++      serverName: catalog-operator-metrics.{{ .Release.Namespace }}.svc
+   jobLabel: component
+   namespaceSelector:
+     matchNames:
+-    - {{ .Values.namespace }}
++    - {{ .Release.Namespace }}
+   selector:
+     matchLabels:
+       app: catalog-operator
+@@ -61,7 +61,7 @@ apiVersion: rbac.authorization.k8s.io/v1
+ kind: RoleBinding
+ metadata:
+   name: operator-lifecycle-manager-metrics
+-  namespace: {{ .Values.namespace }}
++  namespace: {{ .Release.Namespace }}
+ roleRef:
+   apiGroup: rbac.authorization.k8s.io
+   kind: Role
+@@ -75,7 +75,7 @@ apiVersion: rbac.authorization.k8s.io/v1
+ kind: Role
+ metadata:
+   name: operator-lifecycle-manager-metrics
+-  namespace: {{ .Values.namespace }}
++  namespace: {{ .Release.Namespace }}
+ rules:
+ - apiGroups:
+   - ""
+diff --git a/chart/templates/0000_90_olm_01-prometheus-rule.yaml b/chart/templates/0000_90_olm_01-prometheus-rule.yaml
+index 64bd3c7..a9d0a4d 100644
+--- a/chart/templates/0000_90_olm_01-prometheus-rule.yaml
++++ b/chart/templates/0000_90_olm_01-prometheus-rule.yaml
+@@ -3,7 +3,7 @@ apiVersion: monitoring.coreos.com/v1
+ kind: PrometheusRule
+ metadata:
+   name: olm-alert-rules
+-  namespace: {{ .Values.namespace }}
++  namespace: {{ .Release.Namespace }}
+   labels:
+     prometheus: alert-rules
+     role: alert-rules
+diff --git a/chart/templates/_packageserver.clusterserviceversion.yaml b/chart/templates/_packageserver.clusterserviceversion.yaml
+index 5739dff..a6440f6 100644
+--- a/chart/templates/_packageserver.clusterserviceversion.yaml
++++ b/chart/templates/_packageserver.clusterserviceversion.yaml
+@@ -3,7 +3,7 @@ apiVersion: operators.coreos.com/v1alpha1
+ kind: ClusterServiceVersion
+ metadata:
+   name: packageserver
+-  namespace: {{ .Values.namespace }}
++  namespace: {{ .Release.Namespace }}
+   labels:
+     olm.version: {{ .Chart.Version }}
+     {{- if .Values.writePackageServerStatusName }}
+diff --git a/chart/values.yaml b/chart/values.yaml
+index 31bc9a0..31dcf9e 100644
+--- a/chart/values.yaml
++++ b/chart/values.yaml
+@@ -1,5 +1,5 @@
+ rbacApiVersion: rbac.authorization.k8s.io
+-namespace: operator-lifecycle-manager
++
+ # see https://kubernetes.io/docs/concepts/security/pod-security-admission/ for more details
+ namespace_psa: 
+   enforceLevel: baseline
