@@ -10,7 +10,7 @@ Kubernetes Chart for Operator Lifecycle Manager
 |-----|------|---------|-------------|
 | catalog.commandArgs | string | `"--configmapServerImage=quay.io/operator-framework/configmap-operator-registry:latest"` |  |
 | catalog.image.pullPolicy | string | `"Always"` |  |
-| catalog.image.ref | string | `"quay.io/operator-framework/olm:v0.31.0"` |  |
+| catalog.image.ref | string | `"quay.io/operator-framework/olm:v0.32.0"` |  |
 | catalog.nodeSelector."kubernetes.io/os" | string | `"linux"` |  |
 | catalog.opmImageArgs | string | `"--opmImage=quay.io/operator-framework/opm:latest"` |  |
 | catalog.replicaCount | int | `1` |  |
@@ -19,6 +19,7 @@ Kubernetes Chart for Operator Lifecycle Manager
 | catalog.service.externalPort | string | `"metrics"` |  |
 | catalog.service.internalPort | int | `8080` |  |
 | catalog.setWorkloadUserID | bool | `true` |  |
+| catalogGrpcPodPort | int | `50051` |  |
 | catalog_namespace | string | `"operator-lifecycle-manager"` |  |
 | debug | bool | `false` |  |
 | imagestream | bool | `false` |  |
@@ -33,8 +34,16 @@ Kubernetes Chart for Operator Lifecycle Manager
 | namespace_psa.enforceVersion | string | `"latest"` |  |
 | namespace_psa.warnLevel | string | `"restricted"` |  |
 | namespace_psa.warnVersion | string | `"latest"` |  |
+| networkPolicy.dns.ports[0].port | int | `53` |  |
+| networkPolicy.dns.ports[0].protocol | string | `"TCP"` |  |
+| networkPolicy.dns.ports[1].port | int | `53` |  |
+| networkPolicy.dns.ports[1].protocol | string | `"UDP"` |  |
+| networkPolicy.kubeAPIServer.ports[0].port | int | `6443` |  |
+| networkPolicy.kubeAPIServer.ports[0].protocol | string | `"TCP"` |  |
+| networkPolicy.metrics.ports[0].port | string | `"metrics"` |  |
+| networkPolicy.metrics.ports[0].protocol | string | `"TCP"` |  |
 | olm.image.pullPolicy | string | `"Always"` |  |
-| olm.image.ref | string | `"quay.io/operator-framework/olm:v0.31.0"` |  |
+| olm.image.ref | string | `"quay.io/operator-framework/olm:v0.32.0"` |  |
 | olm.nodeSelector."kubernetes.io/os" | string | `"linux"` |  |
 | olm.replicaCount | int | `1` |  |
 | olm.resources.requests.cpu | string | `"10m"` |  |
@@ -45,7 +54,7 @@ Kubernetes Chart for Operator Lifecycle Manager
 | operator_namespace_psa.enforceLevel | string | `"baseline"` |  |
 | operator_namespace_psa.enforceVersion | string | `"latest"` |  |
 | package.image.pullPolicy | string | `"Always"` |  |
-| package.image.ref | string | `"quay.io/operator-framework/olm:v0.31.0"` |  |
+| package.image.ref | string | `"quay.io/operator-framework/olm:v0.32.0"` |  |
 | package.maxSurge | int | `1` |  |
 | package.maxUnavailable | int | `1` |  |
 | package.nodeSelector."kubernetes.io/os" | string | `"linux"` |  |
