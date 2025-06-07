@@ -26,10 +26,29 @@ jobs:
         with:
           version: v3.11.2
 
+      - uses: gabe565/setup-helm-docs-action@v1
+
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
           check-latest: true
+
+      # Runs commands using the runners shell
+      - name: Check for updates in chart
+        run: .bin/update-chart.sh
+
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            src:
+              - 'chart/**'
+
+      # push the change if exists
+      - uses: int128/update-generated-files-action@v2
+        with:
+          commit-message: "chore: Update OLM chart"
+        if: steps.changes.outputs.src == 'true'
 
       - name: Helm Chart Testing
         uses: helm/chart-testing-action@v2.7.0
