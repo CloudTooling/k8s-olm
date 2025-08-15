@@ -7,7 +7,7 @@ OLM_VERSION="0.33.0"
 
 mkdir -p tmp && cd tmp
 cp ../chart/Chart.yaml Chart.yaml.bak
-cp ../chart/ci.values.yaml ci.values.yaml.bak
+cp ../chart/ci.values.yaml ci.values.yaml.bak || true
 git clone https://github.com/operator-framework/operator-lifecycle-manager.git
 git -C operator-lifecycle-manager reset --hard "v$OLM_VERSION"
 echo "Using OLM version=$OLM_VERSION"
