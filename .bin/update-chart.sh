@@ -15,9 +15,12 @@ rm  operator-lifecycle-manager/deploy/chart/Chart.yaml
 rm -rf ../chart
 mv operator-lifecycle-manager/deploy/chart ..
 mv Chart.yaml.bak ../chart/Chart.yaml
-mv ci.values.yaml.bak ../chart/ci.values.yaml.yaml
+mv ci.values.yaml.bak ../chart/ci.values.yaml || true
 cd ..
+sed -i.bak "s/version: .*/version: ${OLM_VERSION}/" chart/Chart.yaml
 sed -i.bak "s/operator-framework\/olm:master$/operator-framework\/olm:v${OLM_VERSION}/" chart/values.yaml
+rm chart/Chart.yaml.bak
 rm chart/values.yaml.bak
 rm -rf tmp
 helm-docs chart/
+git add .

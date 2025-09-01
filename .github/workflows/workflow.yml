@@ -14,6 +14,9 @@ jobs:
   end2end:
     name: 'Build and Test Helm Chart'
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -41,14 +44,14 @@ jobs:
         id: changes
         with:
           filters: |
-            src:
+            chart:
               - 'chart/**'
 
       # push the change if exists
       - uses: int128/update-generated-files-action@v2
         with:
           commit-message: "chore: Update OLM chart"
-        if: steps.changes.outputs.src == 'true'
+        if: steps.changes.outputs.chart == 'true'
 
       - name: Helm Chart Testing
         uses: helm/chart-testing-action@v2.7.0
