@@ -24,13 +24,12 @@ catalogGrpcPodPort: 50051
 olm:
   replicaCount: 1
   image:
-    ref: quay.io/operator-framework/olm:v0.35.0
+    ref: quay.io/operator-framework/olm:v0.36.0
     pullPolicy: Always
   service:
     internalPort: 8080
+    internalPortHttps: 8443
     externalPort: metrics
-  # tlsSecret: olm-operator-serving-cert
-  # clientCASecret: pprof-serving-cert
   nodeSelector:
     kubernetes.io/os: linux
   resources:
@@ -44,13 +43,12 @@ catalog:
   commandArgs: --configmapServerImage=quay.io/operator-framework/configmap-operator-registry:latest
   opmImageArgs: --opmImage=quay.io/operator-framework/opm:latest
   image:
-    ref: quay.io/operator-framework/olm:v0.35.0
+    ref: quay.io/operator-framework/olm:v0.36.0
     pullPolicy: Always
   service:
     internalPort: 8080
+    internalPortHttps: 8443
     externalPort: metrics
-  # tlsSecret: catalog-operator-serving-cert
-  # clientCASecret: pprof-serving-cert
   nodeSelector:
     kubernetes.io/os: linux
   resources:
@@ -63,7 +61,7 @@ package:
   maxUnavailable: 1
   maxSurge: 1
   image:
-    ref: quay.io/operator-framework/olm:v0.35.0
+    ref: quay.io/operator-framework/olm:v0.36.0
     pullPolicy: Always
   service:
     internalPort: 5443
@@ -77,6 +75,19 @@ package:
 monitoring:
   enabled: false
   namespace: monitoring
+
+certManager:
+  enabled: true
+  issuer:
+    name: olm-ca-issuer
+    selfSigned: true
+    ca:
+      secretName: ""
+  certificate:
+    name: olm-cert
+    secretName: olm-cert
+    extraDnsNames: []
+    extraIpAddresses: []
 
 networkPolicy:
   dns:

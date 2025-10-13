@@ -1,6 +1,6 @@
 # olm
 
-![Version: 0.35.0](https://img.shields.io/badge/Version-0.35.0-informational?style=flat-square)
+![Version: 0.36.0](https://img.shields.io/badge/Version-0.36.0-informational?style=flat-square)
 
 Kubernetes Chart for Operator Lifecycle Manager
 
@@ -10,7 +10,7 @@ Kubernetes Chart for Operator Lifecycle Manager
 |-----|------|---------|-------------|
 | catalog.commandArgs | string | `"--configmapServerImage=quay.io/operator-framework/configmap-operator-registry:latest"` |  |
 | catalog.image.pullPolicy | string | `"Always"` |  |
-| catalog.image.ref | string | `"quay.io/operator-framework/olm:v0.35.0"` |  |
+| catalog.image.ref | string | `"quay.io/operator-framework/olm:v0.36.0"` |  |
 | catalog.nodeSelector."kubernetes.io/os" | string | `"linux"` |  |
 | catalog.opmImageArgs | string | `"--opmImage=quay.io/operator-framework/opm:latest"` |  |
 | catalog.replicaCount | int | `1` |  |
@@ -18,9 +18,18 @@ Kubernetes Chart for Operator Lifecycle Manager
 | catalog.resources.requests.memory | string | `"80Mi"` |  |
 | catalog.service.externalPort | string | `"metrics"` |  |
 | catalog.service.internalPort | int | `8080` |  |
+| catalog.service.internalPortHttps | int | `8443` |  |
 | catalog.setWorkloadUserID | bool | `true` |  |
 | catalogGrpcPodPort | int | `50051` |  |
 | catalog_namespace | string | `"operator-lifecycle-manager"` |  |
+| certManager.certificate.extraDnsNames | list | `[]` |  |
+| certManager.certificate.extraIpAddresses | list | `[]` |  |
+| certManager.certificate.name | string | `"olm-cert"` |  |
+| certManager.certificate.secretName | string | `"olm-cert"` |  |
+| certManager.enabled | bool | `true` |  |
+| certManager.issuer.ca.secretName | string | `""` |  |
+| certManager.issuer.name | string | `"olm-ca-issuer"` |  |
+| certManager.issuer.selfSigned | bool | `true` |  |
 | debug | bool | `false` |  |
 | imagestream | bool | `false` |  |
 | installType | string | `"upstream"` |  |
@@ -43,18 +52,19 @@ Kubernetes Chart for Operator Lifecycle Manager
 | networkPolicy.metrics.ports[0].port | string | `"metrics"` |  |
 | networkPolicy.metrics.ports[0].protocol | string | `"TCP"` |  |
 | olm.image.pullPolicy | string | `"Always"` |  |
-| olm.image.ref | string | `"quay.io/operator-framework/olm:v0.35.0"` |  |
+| olm.image.ref | string | `"quay.io/operator-framework/olm:v0.36.0"` |  |
 | olm.nodeSelector."kubernetes.io/os" | string | `"linux"` |  |
 | olm.replicaCount | int | `1` |  |
 | olm.resources.requests.cpu | string | `"10m"` |  |
 | olm.resources.requests.memory | string | `"160Mi"` |  |
 | olm.service.externalPort | string | `"metrics"` |  |
 | olm.service.internalPort | int | `8080` |  |
+| olm.service.internalPortHttps | int | `8443` |  |
 | operator_namespace | string | `"operators"` |  |
 | operator_namespace_psa.enforceLevel | string | `"baseline"` |  |
 | operator_namespace_psa.enforceVersion | string | `"latest"` |  |
 | package.image.pullPolicy | string | `"Always"` |  |
-| package.image.ref | string | `"quay.io/operator-framework/olm:v0.35.0"` |  |
+| package.image.ref | string | `"quay.io/operator-framework/olm:v0.36.0"` |  |
 | package.maxSurge | int | `1` |  |
 | package.maxUnavailable | int | `1` |  |
 | package.nodeSelector."kubernetes.io/os" | string | `"linux"` |  |
