@@ -45,6 +45,7 @@ jobs:
         with:
           filters: |
             chart:
+              - '.bin/**'
               - 'chart/**'
 
       # push the change if exists
