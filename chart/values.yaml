@@ -24,9 +24,10 @@ catalogGrpcPodPort: 50051
 olm:
   replicaCount: 1
   image:
-    ref: quay.io/operator-framework/olm:v0.36.0
+    ref: quay.io/operator-framework/olm:v0.38.0
     pullPolicy: Always
   service:
+    name: olm-operator-metrics
     internalPort: 8080
     internalPortHttps: 8443
     externalPort: metrics
@@ -43,9 +44,10 @@ catalog:
   commandArgs: --configmapServerImage=quay.io/operator-framework/configmap-operator-registry:latest
   opmImageArgs: --opmImage=quay.io/operator-framework/opm:latest
   image:
-    ref: quay.io/operator-framework/olm:v0.36.0
+    ref: quay.io/operator-framework/olm:v0.38.0
     pullPolicy: Always
   service:
+    name: catalog-operator-metrics
     internalPort: 8080
     internalPortHttps: 8443
     externalPort: metrics
@@ -61,7 +63,7 @@ package:
   maxUnavailable: 1
   maxSurge: 1
   image:
-    ref: quay.io/operator-framework/olm:v0.36.0
+    ref: quay.io/operator-framework/olm:v0.38.0
     pullPolicy: Always
   service:
     internalPort: 5443
@@ -77,7 +79,7 @@ monitoring:
   namespace: monitoring
 
 certManager:
-  enabled: true
+  enabled: false
   issuer:
     name: olm-ca-issuer
     selfSigned: true
@@ -88,6 +90,18 @@ certManager:
     secretName: olm-cert
     extraDnsNames: []
     extraIpAddresses: []
+
+# OpenShift service-ca configuration
+# When enabled, uses OpenShift service-ca-operator for certificate management
+# This is mutually exclusive with certManager - only one should be enabled
+serviceCa:
+  enabled: false
+  # Secret names are left empty in upstream, to be filled by downstream values.yaml
+  # Service names are taken from olm.service.name and catalog.service.name
+  olmOperator:
+    secretName: ""
+  catalogOperator:
+    secretName: ""
 
 networkPolicy:
   dns:
